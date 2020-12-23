@@ -3,12 +3,22 @@ package main
 import (
 	"net/http"
 	"fmt"
+	"strings"
 )
 
-type Handler interface {
-	ServeHTTP(w http.ResponseWriter, r *http.Request)
+func PlayerServer(w http.ResponseWriter, r *http.Request) {
+	player := strings.TrimPrefix(r.URL.Path, "/players/")
+
+	fmt.Fprint(w, GetPlayerScore(player))
 }
 
-func PlayerServer(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "20")
+func GetPlayerScore(name string) string {
+	switch name {
+	case "Pippen":
+		return "20"
+	case "Jordan":
+		return "45"
+	default:
+		return ""
+	}
 }
